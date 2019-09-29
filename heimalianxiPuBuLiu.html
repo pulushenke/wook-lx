@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            background-color: #eee;
+            font-size: 0;
+        }
+
+        .container div {
+            border: 1px solid #3c3c3c;
+            position: absolute;
+            padding: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div><img src="img/pbl_1.jpg" alt=""></div>
+        <div><img src="img/pbl_2.jpg" alt=""></div>
+        <div><img src="img/pbl_3.jpg" alt=""></div>
+        <div><img src="img/pbl_4.jpg" alt=""></div>
+    </div>
+    <script>
+        //     思路分析
+        //  1 获取到 itembox 的宽度
+        //  2 获取到 item 宽度
+        //  3 求出列数
+        //  4 求出间距
+        //  5 实现瀑布布局的方法
+        //  6 滚动页面时 加载数据
+
+        window.onload = function () {
+            let conBox = document.querySelector('.container'),
+                conBoxW = conBox.offsetWidth,
+                items = document.querySelectorAll('.container div'),
+                itemImgW = items[0].offsetWidth;
+    
+                
+                
+
+        }
+    </script>
+</body>
+
+</html>

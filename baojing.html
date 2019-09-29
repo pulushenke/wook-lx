@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <title>Document</title>
+
+    <style>
+        .container {
+            width: 200px;
+            height: 200px;
+            border:1px  solid  #CCCCCC;
+            position: absolute;
+            left: 40%;
+            top: 40%;
+        }
+        .delete{
+        text-align: right;
+        margin-right: 4px;
+            
+        }
+        .type {
+            text-align: center;
+            
+            
+        }
+        
+        .icoo {
+         position: absolute;
+            left: 20%;
+            top: 29%;
+            width: 120px;
+            height: 120px;
+            background: url("img/jl.png") no-repeat;
+            background-size: 100%;
+        }
+        /*动画*/
+        
+        .ico {
+            -webkit-animation: Tada 1s 2s both infinite;
+            -moz-animation: Tada 1s 2s both infinite;
+            -ms-animation: Tada 1s 2s both infinite;
+            animation: Tada 1s 2s both infinite;
+        }
+        /*浏览器兼容性部分略过*/
+        
+        @keyframes Tada {
+            0% {
+                transform: scale(1);
+                transform: scale(1)
+            }
+            10%,
+            20% {
+                transform: scale(0.9) rotate(-3deg);
+                transform: scale(0.9) rotate(-3deg)
+            }
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: scale(1.1) rotate(3deg);
+                transform: scale(1.1) rotate(3deg)
+            }
+            40%,
+            60%,
+            80% {
+                transform: scale(1.1) rotate(-3deg);
+                transform: scale(1.1) rotate(-3deg)
+            }
+            100% {
+                transform: scale(1) rotate(0);
+                transform: scale(1) rotate(0)
+            }
+        }
+    </style>
+
+
+</head>
+<body style="background: black">
+    <div class="container">
+        <div  class="delete">
+            <img  src="img/delete.png">
+        </div>
+        <div class="type">健康报警  
+        
+        </div>
+        <div class="icoo ico"></div>
+    </div>
+</body>
+
+</html>

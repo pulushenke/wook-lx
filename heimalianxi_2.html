@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <title>Document</title>
+    <style>
+        select {
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box"></div>
+
+    <select name="" id="all" multiple="multiple">
+        <option value="">1</option>
+        <option value="">2</option>
+        <option value="">3</option>
+        <option value="">4</option>
+        <option value="">5</option>
+    </select>
+    <input type="button" value="&gt;&gt;" id="b_1" />
+    <input type="button" value="&gt;" id="b_2" />
+    <input type="button" value="&lt;&lt;" id="b_3" />
+    <input type="button" value="&lt;" id="b_4" />
+    <select name="" id="all_1" multiple="multiple">
+
+    </select>
+    <script>
+        //选择移动操作
+        //innerHTML 清空的内容 元素的事件 也会清空 并 发生内存泄露
+        var b_1 = document.querySelector('#b_1');
+        var b_2 = document.querySelector('#b_2');
+        var selAll = document.querySelector('#all');
+        var selAll_1 = document.querySelector('#all_1');
+        b_1.onclick = function () {
+            let len = selAll.children.length;
+            for (let i = 0; i < len; i++) {
+                let option = selAll.children[0];
+                option.selected = false;
+                selAll_1.appendChild(option);
+            }
+        }
+        b_2.onclick = function () {
+
+            let arr = [];
+            for (let i = 0; i < selAll.children.length; i++) {
+                let option = selAll.children[i];
+                if (option.selected) {
+                    arr.push(option);
+                }
+            }
+            arr.forEach(function (v) {
+                v.selected = false;
+                selAll_1.appendChild(v);
+            })
+
+        }
+
+
+
+
+        var datas = [{
+                name: 'zs',
+                subject: '语言',
+                score: 90
+            },
+            {
+                name: 'ls',
+                subject: '数学',
+                score: 80
+            },
+            {
+                name: 'ww',
+                subject: '语言',
+                score: 99
+            },
+            {
+                name: 'zl',
+                subject: '语言',
+                score: 100
+            },
+            {
+                name: 'xs',
+                subject: '语言',
+                score: 60
+            }
+        ];
+
+        var arr = ['姓名', '科目', '成绩', '制作'];
+        // var table = document.createElement('table');
+        // document.getElementById('box').appendChild(table);
+
+        //动态创建元素tabel
+        var $table = $('<table>');
+        $('#box').append($table);
+        var $thead = $('<thead>');
+        $table.append($thead);
+        var $tr = $('<tr>');
+        $thead.append($tr);
+        arr.forEach(function (item) {
+            var $th = $('<th>');
+            $tr.append($th);
+            $th.text(item);
+        });
+        var $tbody = $('<tbody>');
+        $table.append($tbody);
+
+        datas.forEach(function (item) {
+            $tr = $('<tr>');
+            Object.keys(item).forEach(function (i) {
+                $td = $('<td>');
+                $td.text(item[i]);
+                $tr.append($td);
+            })
+            $tbody.append($tr);
+        })
+    </script>
+</body>
+
+</html>

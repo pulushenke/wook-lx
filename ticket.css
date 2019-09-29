@@ -1,0 +1,49 @@
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+}
+
+ul,
+ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.container-ent {
+    width: 257mm;
+    height: 364mm;
+    margin: 0 auto;
+    border: 1px solid #000;
+
+}
+
+.container-ent h2 {
+    text-align: center;
+    font-size: 26px;
+    letter-spacing: 1em;
+    padding-top: 25px;
+}
+
+table {
+    width: 250mm;
+    border: 1px solid #111;
+
+}
+
+table caption {
+    text-align: left;
+
+}
+
+table caption span {
+    text-align: right;
+
+
+}

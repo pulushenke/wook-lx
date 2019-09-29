@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        一叶书
+    </div>
+    <p>
+        弃天帝
+    </p>
+    <span>
+        柳生剑影
+    </span>
+    <script>
+        $(function() {
+            $('div').click(function() {
+                SelectText();
+            });
+        })
+
+        function SelectText() {
+            if (window.getSelection) { //一般浏览器 
+                userSelection = window.getSelection();
+                console.log(userSelection);
+            } else if (document.selection) { //IE浏览器、Opera 
+                userSelection = document.selection.createRange();
+                console.log(userSelection);
+            }
+            userSelection.toString();
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <!-- <script src="../Scripts/jquery-1.11.3.min.js"></script> -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .weixin-tip {
+            /*display: none;*/
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            /*filter: alpha(opacity=80);*/
+            height: 100%;
+            width: 100%;
+            z-index: 100;
+        }
+
+            .weixin-tip p {
+                text-align: center;
+                margin-top: 10%;
+                padding: 0 5%;
+            }
+    </style>
+
+    <script type="text/javascript">
+
+        function is_weixn() {
+            var ua = navigator.userAgent.toLowerCase();
+            if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            console.log(reg);
+            var r = window.location.search.substr(1).match(reg);
+            console.log(r);
+            if (r != null) return unescape(r[2]); 
+            return null;
+        }
+
+        $(function () {
+
+            if (!is_weixn()) {
+                var name = getQueryString('name');
+                
+                if (name == 'aq'){
+                    console.log(name)
+                }
+                    // window.location.href = '/170817aq.apk';
+                else{
+                    console.log(name);
+                }
+                    // window.location.href = '/170817pdy.apk';
+
+                $('.weixin-tip').hide();
+            }
+            else
+                $('.weixin-tip').show();
+        })
+
+    </script>
+
+</head>
+<body>
+    <div class="weixin-tip">
+        <p>
+            <img src="live_weixin.png" alt="微信打开" />
+        </p>
+    </div>
+</body>
+</html>

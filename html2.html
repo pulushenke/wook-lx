@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <style>
+        /*       body {
+            margin: 0;
+            padding: 0;
+
+        }*/
+        .div{
+            background-color: #000;
+        }
+        #set {
+            width: 170px;
+            overflow: auto;
+
+        }
+
+        #set li:hover {
+            background: #ff0;
+        }
+
+        #btn {
+            margin-top: 10px;
+            margin-left: 100px;
+        }
+
+        div {
+            width: 200px;
+            margin: 10px auto;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+        .sese{
+            width:100px;
+        }
+    </style>
+</head>
+
+<body>
+    <a></a>
+    <div>
+        <!--     <select id="set" class="form-control">
+           <option value="一叶书">一叶书</option>
+           <option value="弃天帝">弃天帝</option>
+             <option value="风之痕">风之痕</option>RRRRRRR
+               <option value="柳生剑影">柳生剑影</option>
+       </select>-->
+        <input type="text" id="_input" class="form-control" />
+        <ul id="set" class="hidden">
+            <li value="一叶书">一叶书</li>
+            <li value="弃天帝">弃天帝</li>
+            <li value="风之痕">风之痕</li>
+            <li value="柳生剑影">柳生剑影</li>
+        </ul>
+        <div class=""></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            //  iptVal()
+            $("#_input").change(function () {
+                iptVal()
+            })
+
+            $("#set li").click(function () {
+                $("#_input").val($(this).html());
+                transferValue();
+            })
+
+
+        })
+
+        function transferValue() {
+            $("#_input").val($(this).html());
+
+
+        }
+
+        function iptVal() {
+            var ipt = $('#_input').val();
+            var sel = $("#set li").html();
+            alert(sel)
+            var patt = new RegExp(sel)
+            alert(patt);
+
+            var result = patt.exec(ipt);
+            alert(result);
+            if (result) {
+                $("#set").removeClass("hidden");
+            }
+            //alert(typeof ipt)
+
+        }
+    </script>
+</body>
+
+</html>

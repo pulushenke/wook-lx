@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //如果未来的变量要保存对象，最好设置成var XXX= null;
+        let arr = [1, 5, 2, 10, 43, 23];
+
+        function compare(v1, v2) {
+            if (v1 < v2) {
+                return -1;
+            } else if (v1 > v2) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+        function compare1(v1,v2){
+            return v1-v2;
+        }
+        console.log(arr.sort(compare1));
+    </script>
+</body>
+
+</html>

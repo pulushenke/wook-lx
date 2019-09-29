@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <style>
+        .weather_style {
+            padding: 5px 0;
+        }
+
+        .weather_style span img {
+            width: 26px;
+            height: 26px;
+        }
+
+        .weather_style span {
+            margin: 2px 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="text-align:center;" class="a1" id="weather">
+    </div>
+
+
+    <script>
+        $(function () {
+            getWeather('#weather');
+        })
+
+        function getWeather(parentEleId) {
+            var weatherUrl = 'https://www.tianqiapi.com/api/';
+            var data = 'appid=94888666&appsecret=Svd5stmU&version=v1';
+
+            $.ajax({
+                type: 'get',
+                url: weatherUrl,
+                data: data,
+                dataType: 'JSON',
+                error: function () {
+                    alert('网络错误');
+                },
+                //动态创建元素第一个写法
+                // success: function (res) { 
+                //     var arr = [];
+                //     arr.push('<div class="weather_style">');
+                //     arr.push('<span>城市:' + res.city + '</span>');
+                //     arr.push('<span><img src= "./img/weather/peach/' + res.data[0].wea_img + '.png"></span>');
+                //     arr.push('<span>' + res.data[0].wea + '</span>');
+                //     arr.push('<span>' + res.data[0].tem + '</span>');
+                //     arr.push('<span style="background-color:#73D538;color:#fff;width:20px;height:20px;">' +
+                //         res.data[0].air_level + '</span>');
+                //     arr.push('<span>湿度:' + res.data[0].humidity + '</span></br>');
+                //     arr.push('<span>风向(早/晚):' + res.data[0].win + '</span>');
+                //     arr.push('<span>风速:' + res.data[0].win_speed + '</span>');
+                //     arr.push('</div>');
+                //     console.log(arr.join(''));
+                //     $(parentEleId).append(arr.join(''));
+                // }
+                    //动态创建元素第二种写法
+                success: function (res) {
+                    var arr = [];
+               
+                    arr.push('<div class="weather_style">');
+                    arr.push('<span>城市:' + res.city + '</span>');
+                    arr.push('<span><img src= "./img/weather/peach/' + res.data[0].wea_img +
+                        '.png"></span>');
+                    arr.push('<span>' + res.data[0].wea + '</span>');
+                    arr.push('<span>' + res.data[0].tem + '</span>');
+                    arr.push('<span style="background-color:#73D538;color:#fff;width:20px;height:20px;">' +
+                        res.data[0].air_level + '</span>');
+                    arr.push('<span>湿度:' + res.data[0].humidity + '</span></br>');
+                    arr.push('<span>风向(早/晚):' + res.data[0].win + '</span>');
+                    arr.push('<span>风速:' + res.data[0].win_speed + '</span>');
+                    arr.push('</div>');
+                    console.log(arr.join(''));
+                    $(parentEleId).append(arr.join(''));
+                }
+            });
+
+        }
+    </script>
+</body>
+
+</html>

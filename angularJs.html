@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+ 
+
+    <div ng-app="myApp" ng-controller="myCtrl">
+        <input type="text" ng-model="text" />
+        <ul>
+            <li ng-repeat="x in names | filter:text | orderBy:'job'">
+                {{x.name + ',' + x.job}}
+            </li>
+        </ul>
+        <p>{{myUrl}}</p>
+        <p>{{timeOut}}</p>
+        <p>{{theTime}}</p>
+        <p>{{fex}}</p>
+          <h3>
+            {{255|myFormat}}
+        </h3>
+    </div>
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+
+        app.controller('myCtrl', function($scope, $location, $timeout, $interval, fex) {
+            $scope.names = [{
+                    name: '一叶书',
+                    job: '中原第一人'
+                },
+                {
+                    name: '风之痕',
+                    job: '魔剑流'
+                },
+                {
+                    name: '弃天帝',
+                    job: '神界武神'
+                }
+            ];
+            $scope.myUrl = $location.absUrl();
+            $scope.timeOut = '时间跳动';
+            $timeout(function() {
+                $scope.timeOut = '跳动吧时间';
+            }, 1000);
+            $scope.theTime = new Date().toLocaleTimeString();
+            $interval(function() {
+                $scope.theTime = new Date().toLocaleTimeString();
+            }, 1000);
+            $scope.fex = fex.myFun(555);
+
+        });
+
+        /****自定义服务****/
+        app.service('fex', function() {
+            this.myFun = function(x) {
+                return x.toString(16);
+            }
+        });
+
+       // var app1 = angular.module('myApp1', []);
+        app.service('hex', function() {
+            this.myFunc = function(v) {
+                return v.toString(16);
+            }
+        });
+
+        app.filter('myFormat', ['hex', function(hex) {
+            return function(x) {
+                return hex.myFunc(x)
+            }
+        }])
+    </script>
+</body>
+
+</html>

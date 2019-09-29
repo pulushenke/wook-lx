@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .box_scroll {
+            width: 500px;
+            height: 300px;
+            border: 1px solid #3c3c3c;
+            margin: 10px;
+            overflow: hidden;
+        }
+
+        .scroll {
+            width: 15px;
+            height: 100%;
+            float: right;
+            background-color: #ccc;
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+        .content {
+            float: left;
+            width: 485px;
+            position: relative;
+
+        }
+
+        .bar {
+            width: 15px;
+            border-radius: 5px;
+            background-color: blue;
+            cursor: move;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+        }
+
+        .div_carousel {
+            width: 500px;
+            height: 300px;
+            border: 8px solid #ccc;
+            position: relative;
+            margin: 5px auto;
+            border-radius: 3px;
+        }
+
+        .screen {
+            width: 500px;
+            height: 300px;
+            position: relative;
+            font-size: 0;
+            overflow: hidden;
+
+        }
+
+        .screen ul {
+            width: 3000px;
+            position: relative;
+        }
+
+        .screen ul li {
+            width: 500px;
+            height: 300px;
+            display: inline-block;
+            position: relative;
+
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .blue {
+            background-color: blue;
+        }
+
+        .pink {
+            background-color: pink;
+        }
+
+        .orange {
+            background-color: orange;
+        }
+
+        .slateblue {
+            background-color: slateblue;
+        }
+
+        .screen ol {
+            position: absolute;
+            height: 20px;
+            bottom: 20px;
+            left: 50%;
+            font-size: 0;
+        }
+
+        .screen ol li {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin: 0 5px;
+            background-color: #fff;
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+
+        }
+
+        .arr {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            font-size: 26px;
+            color: #fff;
+            display: none;
+        }
+
+        .arr span {
+            cursor: pointer;
+        }
+
+        #moveAni_1 {
+            width: 100px;
+            height: 100px;
+            background-color: blueviolet;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 轮播图 -->
+    <div id="divCarousel" class="div_carousel">
+        <div id="screen" class="screen">
+            <ul>
+                <li class="red"><img src="img/11.jpg" alt=""></li>
+                <li class="blue"><img src="img/22.jpg" alt=""></li>
+                <li class="pink"><img src="img/33.jpg" alt=""></li>
+                <li class="orange"><img src="img/44.jpg" alt=""></li>
+                <li class="slateblue"><img src="img/55.jpg" alt=""></li>
+            </ul>
+            <ol></ol>
+        </div>
+        <div id="arr" class="arr">
+            <span id="left">&lt;</span>
+            <span id="right" style="float: right">&gt;</span>
+        </div>
+    </div>
+    <!-- 轮播图 -->
+
+    <!-- 滚动条 -->
+    <div id="boxScroll" class="box_scroll">
+        <div id="content" class="content">
+
+        </div>
+
+        <div id="scroll" class="scroll">
+            <div id="bar" class="bar"></div>
+        </div>
+    </div>
+    <div id="aniDiv">
+        <input type="button" value="动画 800">
+        <input type="button" value="动画 400">
+        <div id="moveAni_1"></div>
+        <div id="moveAni_2"></div>
+    </div>
+    <!-- 滚动条 -->
+    <script>
+        // 轮播图
+        let screen = $('#screen'),
+            arr = $('#arr'),
+            arrLeft = $('#left'),
+            arrRight = $('#right'),
+            divCarousel = $('#divCarousel');
+        //根据ul 加载ol内容
+        let lis = screen.find('li');
+        for (let i = 0; i < lis.length; i++) {
+            let $olLi = $('<li></li>');
+            $olLi.text(i + 1);
+            //默认高亮显示第一个
+            if (i === 0) $olLi.css('backgroundColor', 'yellow');
+            screen.children('ol').append($olLi);
+            //注册事件
+            $olLi.click(roll);
+        }
+        //鼠标经过显示隐藏箭头
+        divCarousel.mouseenter(function () {
+            arr.show();
+            clearInterval(timerId);
+            timerId = null;
+
+        });
+        divCarousel.mouseleave(function () {
+            arr.hide();
+            timerId = setInterval(() => {
+                arr.children().eq(1).triggerHandler('click');
+            }, (1000));
+        })
+        //上一张下一张
+        let index = 0;
+        let cloneFirstLi = lis.eq(0).clone();
+        screen.children('ul').append(cloneFirstLi);
+        arr.children().eq(0).click(function () {
+            if (index === 0) {
+                index = lis.length;
+                //screen.children('ul').width(-index * screen.width() + 'px');
+                screen.children('ul').css('left', -index * screen.width());
+            }
+            // if (index > 0) {
+            //     index--
+            //     screen.children('ol').children().eq(index).triggerHandler('click');
+            // }
+            index--;
+            screen.children('ol').children().eq(index).triggerHandler('click');
+        })
+        arr.children().eq(1).click(function () {
+            if (index === lis.length) {
+                screen.children('ul').css('left', 0);
+                index = 0;
+            }
+            index++;
+
+            if (index < lis.length) {
+                screen.children('ol').children().eq(index).triggerHandler('click');
+            } else {
+                setAnimate(screen.children('ul')[0], -index * screen.width());
+                screen.children('ol').children().removeAttr('style');
+                screen.children('ol').children().eq(0).css('backgroundColor', 'yellow');
+
+
+            }
+        })
+        //添加动画
+        let timerId = setInterval(() => {
+            arr.children().eq(1).triggerHandler('click');
+        }, (2000));
+
+        function roll() {
+            $(this).css('backgroundColor', 'yellow');
+            $(this).siblings().removeAttr('style');
+            let w = screen.width();
+            index = $(this).index();
+            setAnimate($('#screen ul')[0], -$(this).index() * w)
+
+        }
+
+        //动画
+        //let timerId = null;
+
+        $('#aniDiv input').eq(0).click(function () {
+            setAnimate($('#moveAni_1')[0], 800);
+        })
+        $('#aniDiv input').eq(1).click(function () {
+            setAnimate($('#moveAni_1')[0], 400);
+        })
+
+        function setAnimate(ele, target) {
+            if (ele.timerId) {
+                clearInterval(ele.timerId);
+                ele.timerId = null
+            }
+            ele.timerId = setInterval(function () {
+                let step = 10;
+                let current = ele.offsetLeft;
+                if (current > target) {
+                    step = -Math.abs(step);
+                }
+                if (Math.abs(current - target) < Math.abs(step)) {
+                    clearInterval(ele.timerId);
+                    ele.style.left = target + 'px';
+                    return
+                }
+                current += step;
+                ele.style.left = current + 'px';
+            }, 10);
+        }
+        //滚动条
+        let boxScroll = document.querySelector('#boxScroll'),
+            content = document.querySelector('#content'),
+            scroll = document.querySelector('#scroll'),
+            bar = document.querySelector('#bar');
+        //页面加载判断滚动条的高度
+        let barHeight = 0;
+        if (boxScroll.clientHeight < content.clientHeight) {
+            barHeight = boxScroll.clientHeight / content.clientHeight * scroll.clientHeight;
+            bar.style.height = barHeight + 'px';
+        }
+
+        //给bar添加下拉滚动事件
+        bar.onmousedown = function (e) {
+            e = e || window.enent;
+            //鼠标在滚动条中的位置
+            //let mouseX = e.pageX - boxScroll.offsetLeft;
+            let mouseY = e.pageY - bar.offsetTop - boxScroll.offsetTop;
+            //添加滚动移动事件
+            document.onmousemove = function (e) {
+                //bar的位置等于鼠标的位置
+                // let barX = e.pageX - mouseX;
+                let barY = e.pageY - mouseY - boxScroll.offsetTop;
+                if (barY < 0) {
+                    barY = 0;
+                } else if (barY > scroll.clientHeight - bar.clientHeight) {
+                    barY = scroll.clientHeight - bar.clientHeight
+                }
+
+                bar.style.top = barY + 'px';
+                //当拖动滚动条的时候，改变内容的位置
+                //内容滚动的距离 / 内容最大能够滚动的距离 = 滚动条滚动的距离 / 滚动条最大能够滚动的距离
+                // 内容最大能够滚动的距离 
+                let contentMax = content.scrollHeight - boxScroll.clientHeight;
+                //滚动条最大能够滚动的距离
+                let barMax = scroll.clientHeight - bar.clientHeight;
+                let contentY = barY / barMax * contentMax;
+                content.style.top = -contentY + 'px';
+
+
+            }
+        }
+        document.onmouseup = function () {
+            document.onmousemove = null;
+        }
+    </script>
+</body>
+
+</html>

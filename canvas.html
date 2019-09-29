@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <title>Document</title>
+</head>
+<style>
+    #myc1,
+    #myc2 {
+
+        border: 1px solid #333;
+    }
+
+</style>
+
+<body>
+    <canvas id="myc1" width="200" height="100"></canvas>
+    <canvas id="myc2" width="200" height="100"></canvas>
+
+    <script>
+        $(document).ready(function() {
+            n1();
+            n2();
+        });
+
+        function n1() {
+            var c = document.getElementById("myc1");
+            var ctx = c.getContext("2d");
+            var ctr = c.getContext("2d");
+            ctx.moveTo(0, 0);
+            ctx.lineTo(200, 100);
+            ctx.stroke();
+            ctr.moveTo(200, 0);
+            ctr.lineTo(0, 100);
+            ctr.stroke();
+        }
+
+        function n2() {
+            var y = document.getElementById('myc2');
+            var ytx = y.getContext("2d");
+            ytx.arc(95, 50, 40, 0, 2 * Math.PI);
+            ytx.stroke();
+        }
+        
+
+    </script>
+</body>
+
+</html>

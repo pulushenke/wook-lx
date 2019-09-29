@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function MyFuction(name, job) {
+            this.name = name;
+            this.job = job;
+
+
+        }
+
+        let person = {};
+        Object.defineProperty(person, 'name', {
+            configurable: false,
+            writable: false,
+            value: 'jadan'
+        })
+        person.name = 'feng'
+        delete person.name;
+        console.log(person.name);
+        console.log(person.name);
+
+        let book = {
+            _year: 2000,
+            edition: 1
+        };
+        Object.defineProperty(book, 'year', {
+            get: function () {
+                return this._year;
+            },
+            set: function (newValue) {
+                if (newValue > 2000) {
+                    this._year = newValue;
+                    this.edition += newValue - 2000;
+                    console.log(newValue);
+                }
+
+            }
+        });
+        book.year = 2005;
+        console.log(book.edition);
+        console.log( book._year);
+        let descriptor = Object.getOwnPropertyDescriptor(book,'year');
+         console.log(descriptor.get);
+        
+    </script>
+</body>
+
+</html>

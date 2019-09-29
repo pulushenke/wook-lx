@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/api.js"></script>
+    <title>Document</title>
+    <style>
+        .floatLeft {
+            float: left;
+        }
+
+        .floatRight {
+            float: right;
+        }
+
+        .ipt_4 input {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 5 -->
+    <div>
+        <ul id="list_1">
+            <li>一</li>
+            <li>二</li>
+            <li>三</li>
+            <li>四</li>
+        </ul>
+    </div>
+    <!-- 4 -->
+    <div class="ipt_4">
+        <input type="checkbox" name="" id="ipt_checkbox_father" style="outline:1px solid red" />
+        <div class="input_children">
+
+            <input type="checkbox" name="" id="" />
+            <input type="checkbox" name="" id="" />
+            <input type="checkbox" name="" id="" />
+        </div>
+        <input id="btn_back" type="button" value="反选" style="width:100px;" />
+
+    </div>
+
+
+    <!-- 3 -->
+    <input type="text" value="请输入内容" id="textSearch" />
+    <button type="button" id="btnSearch">搜索</button>
+    <!-- 1 -->
+    <div class="floatLeft">
+        <input type="text" /><br />
+        <input type="text" /><br />
+        <input type="text" /><br />
+        <input type="text" /><br />
+        <input type="text" /><br />
+        <input type="text" /><br />
+        <input type="text" /><br />
+        <input type="text" /><br />
+        <input type="text" /><br />
+        <input type="text" /><br />
+        <input type="button" id="btn" value="点击" /><br />
+    </div>
+    <!-- 2 -->
+    <div class="floatLeft">
+
+
+        <button type="button" id="btnSet">设置</button>
+        <select name="" id="selCities">
+            <option value="1">北京</option>
+            <option value="2">上海</option>
+            <option value="3">广州</option>
+            <option value="4">天津</option>
+            <option value="5">重庆</option>
+        </select>
+
+    </div>
+
+    <script>
+        apiready = function () {
+
+            var urlWeather = 'https://www.tianqiapi.com/api/';
+            var data = {
+                values: {
+                    "appid": "94888666",
+                    "appsecret": "Svd5stmU",
+                    "version": "v1"
+                }
+            }
+            getWeather(urlWeather, data);
+
+
+
+        }
+
+
+
+
+        window.onload = function () {
+
+
+            let ulList1 = document.getElementById('list_1');
+
+            if (ulList1.hasChildNodes()) {
+                for (let i = 0; i < ulList1.children.length; i++) {
+                    let li = ulList1.children[i];
+                    if (li % 2 === 0) {
+                        li.style.backgroundColor = 'red';
+                    } else {
+                        li.style.backgroundColor = 'blue';
+                    }
+                }
+            }
+
+            //获取父级checkbox
+            let ipt_checkbox_father = document.querySelector('#ipt_checkbox_father');
+            let ipt_checkbox_childrens = document.querySelectorAll(
+                '.input_children input[type="checkbox"]');
+            //父级checkbox注册事件
+            ipt_checkbox_father.onclick = function () {
+                //获取所以checkbox属性的input子元素
+
+                //选中遍历子级checkbox
+
+                for (let i = 0; i < ipt_checkbox_childrens.length; i++) {
+                    let ipt_checkbox_children = ipt_checkbox_childrens[i];
+                    //根据父级checkbox的checked改变子级checked的属性
+                    ipt_checkbox_children.checked = this.checked;
+                }
+            };
+            //获取子级checkbox元素
+
+            //遍历子级checkbox元素
+            for (let i = 0; i < ipt_checkbox_childrens.length; i++) {
+                //给子级checkbox添加事件
+                let ipt_checkbox_children = ipt_checkbox_childrens[i];
+                ipt_checkbox_children.onclick = function () {
+                    allCheckBox();
+                }
+            }
+
+            //找到反选按钮并注册事件
+            let btn_back = document.querySelector('#btn_back');
+
+
+            btn_back.onclick = function () {
+
+                //遍历当前子checkbox并改变checked的反向状态
+                for (let i = 0; i < ipt_checkbox_childrens.length; i++) {
+                    let ipt_checkbox_children = ipt_checkbox_childrens[i];
+                    ipt_checkbox_children.checked = !ipt_checkbox_children.checked;
+                }
+                allCheckBox();
+            }
+
+
+            let inputs = document.getElementsByTagName('input');
+            let btn = document.querySelector('#btn');
+            let btn1 = document.querySelector('#btnSet');
+            let textSearch = document.getElementById("texts")
+            let arr = [];
+            btn1.onclick = function () {
+
+                let opts = document.querySelectorAll('#selCities option');
+                let random = getRandomIntInclusive(0, opts.length - 1);
+
+                let maxTimes = opts.length - 1;
+                let selected = opts[random].selected;
+                if (opts[random].selected) {
+
+                    selected = false;
+                } else {
+                    selected = true;
+                }
+                //     do {
+
+                //         if (arr.indexOf(random) === -1) {
+                //             arr.push(random);
+                //             opts[random].selected = true;
+                //            return  console.log(random);
+                //         }
+                //         maxTimes--
+
+                //     } while (maxTimes);
+                //  console.log(arr);
+            }
+            btn.onclick = function () {
+                myFunction()
+            }
+
+
+            function allCheckBox() { //获取所有check并改变父级check
+                //添加判断标记
+                let isHookCheckbox = true;
+                //遍历子级checkbox元素
+                for (let i = 0; i < ipt_checkbox_childrens.length; i++) {
+
+                    let ipt_checkbox_children = ipt_checkbox_childrens[i];
+                    //判断子级checkbox属性
+                    if (!ipt_checkbox_children.checked) {
+                        isHookCheckbox = false;
+                    }
+                }
+                //改变父级checkbox属性
+                ipt_checkbox_father.checked = isHookCheckbox;
+            }
+
+        }
+
+
+
+        function getRandomIntInclusive(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min; //含最大值，含最小值 
+        }
+
+        function myFunction() { //1
+
+            let arr = [];
+
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].type === "text") {
+                    inputs[i].value = i;
+                    arr.push(inputs[i].value);
+                }
+            }
+
+            console.log(arr.join('|'));
+        }
+        var url = 'https://www.itheima.com/login?name=zs&age=18&a=1&b=2';
+        //getUrlParams(url);
+        //  获取URL中?后面的内容
+
+
+        function getUrlParams(url) {
+            let index = url.indexOf('?') + 1;
+            let str = url.substr(index);
+            console.log(str);
+            let arr = str.split('&');
+            console.log(arr);
+            let o = {};
+            for (let i = 0; i < arr.length; i++) {
+                let tmpArr = arr[i].split('=');
+                let key = tmpArr[0];
+                let value = tmpArr[1];
+                o[key] = value;
+            }
+            console.log(o);
+            return o
+        }
+
+
+        // 统计出线次数最多的字符及次数
+        let str1 = 'abcdsaddade4sadcdadg3l';
+        let [obj, zf, cs] = [{}];
+
+        for (let i = 0; i < str1.length; i++) {
+
+            let item = str1.charAt(i); //获取索引 字符串常用 
+            if (obj[item]) {
+                obj[item]++
+            } else {
+                obj[item] = 1;
+            }
+        }
+        cs = 1;
+        for (let key in obj) {
+            if (cs < obj[key]) {
+                cs = obj[key];
+                zf = key;
+            }
+        }
+        // console.log(zf);
+        // console.log(cs);
+        // console.log(obj);
+
+
+
+
+        //去除空格
+        let s = ' abc  sfe 2323  ';
+        let s1 = s.split(" ");
+        s1 = s1.join('');
+        console.log(s1);
+
+        //查找多个索引
+        let a_2 = ['a', 'b', 'a', 'c', 'd'];
+
+        function cz() {
+
+            let i = -1;
+            do {
+                i = a_2.indexOf('a', i + 1);
+                if ((i !== -1)) console.log(i);
+
+            } while (i !== -1)
+        }
+        cz()
+
+
+
+        //冒泡排序
+        let a_1 = [12, 44, 46, 2, 35, 6];
+        //  console.log(a_1.join("|"))
+        //控制趟数，第一趟找到一个最大值
+        for (let i = 0; i < a_1.length - 1; i++) {
+            let isSort = true;
+            //控制比较的次数，并且要判断两个数的大小，把大的数往后移动，小的数往前移动
+            for (let j = 0; j < a_1.length - 1 - i; j++) {
+                if (a_1[j] > a_1[j + 1]) {
+                    isSort = false;
+                    let tmp = a_1[j];
+                    a_1[j] = a_1[j + 1];
+                    a_1[j + 1] = tmp;
+                }
+            }
+            if (isSort) break;
+
+
+        }
+        //  console.log(a_1);
+
+
+
+
+        //时间相差算法函数
+        let [d1, d2] = [new Date(), new Date(2019, 9, 1)];
+
+        function getInterval(start, end) {
+            let int = (start - end) / 1000;
+            let [d, h, mi, s] = [Math.round(int / 60 / 60 / 24), Math.round(int / 60 / 60 % 24), Math.round(int /
+                60 % 60), Math.round(int % 60)];
+            return {
+                day: d,
+                hour: h,
+                minute: mi,
+                second: s
+            }
+
+        }
+        let bjo = getInterval(d2, d1);
+        //console.log(o);
+
+
+
+
+
+
+
+        //日期格式化
+        let d = new Date();
+        formatDate(d);
+        // console.log(formatDate(d));
+
+        function formatDate(date) {
+            if (date instanceof Date) {
+                let [y, m, d, h, mi, s] = [date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(),
+                    date
+                    .getMinutes(), date.getSeconds()
+                ];
+                m = m < 10 ? '0' + m : m;
+                d = d < 10 ? '0' + d : d;
+                h = h < 10 ? '0' + h : h;
+                mi = mi < 10 ? '0' + mi : mi;
+                s = s < 10 ? '0' + s : s;
+                console.log(`${y}年${m}月${d}日 ${h}:${m}:${s}`);
+                return;
+            }
+            console.error('date不是日期对象');
+            return;
+        }
+
+
+        let n = [1, 29, 432, 23, 4646, 123];
+
+        function rev(arr) {
+            let newArr = [];
+            for (let i = arr.length - 1; i >= 0; i--) {
+                newArr.push(arr[i]);
+            }
+            return newArr;
+        }
+        // console.log(rev(n))
+
+        function getMax(arr) {
+            let max = arr[0];
+            for (let i = 1; i < arr.length; i++) {
+                if (max < arr[i]) {
+                    max = arr[i];
+                }
+            }
+            //console.log(max);
+        }
+
+
+        getMax(n)
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+function Parent() {};
+function CreatedConstructor() {}
+
+CreatedConstructor.prototype = Object.create(Parent.prototype);
+
+CreatedConstructor.prototype.create = function create() {
+  return new this.constructor();
+}
+CreatedConstructor.prototype.constructor = CreatedConstructor;
+    var Cr=new CreatedConstructor().create().create().create();
+    console.log(Cr);
+
+
+        function Type() { };
+var	types = [
+	new Array,
+    [],
+	new Boolean,
+    true,        // remains unchanged
+	new Date,
+	new Error,
+	new Function,
+	function(){},
+	Math,	
+	new Number,
+	1,           // remains unchanged
+	new Object,
+	{},
+	new RegExp,
+	/(?:)/,
+	new String,
+	"test"       // remains unchanged
+];
+
+for(var i = 0; i < types.length; i++) {
+	types[i].constructor = Type;
+	types[i] = [ types[i].constructor, types[i] instanceof Type, types[i].toString() ];
+};
+
+console.log( types.join("\n") );
+
+
+        function Con(name){
+            this.name = name;
+        }
+        let con1= new Con('Jairo Kunde');
+        console.log(con1.constructor);
+        let obj1 = Object.create(Object.prototype, {
+            type: {
+                value: 'Regional Optimization Executive',
+                writable: true,
+                configurable: true,
+                enumerable: true
+
+
+            }
+        });
+      //  console.log(obj1);
+
+        function Shape() {
+            this.x = 0;
+            this.y = 0;
+        }
+        Shape.prototype.move = function (x, y) {
+            this.x += x;
+            this.y += y;
+        // console.info('Shape moved');
+        }
+        function Rectangle() { 
+          //  Shape.call(this);
+        }
+        Rectangle.prototype = Object.create(Shape.prototype);
+        Rectangle.prototype.constructor = Rectangle;
+        var rect = new Rectangle();
+       /* console.log(rect instanceof Rectangle);
+        console.log(rect instanceof Shape)
+        console.log(rect.move());*/
+    
+        rect.move();
+        
+        let obj = {
+            name: "Alysha",
+            job: "Facilitator"
+        }
+        //   console.log(JSON.stringify(obj));
+        obj = JSON.stringify(obj);
+      //console.log(JSON.parse(obj));
+    </script>
+</body>
+
+</html>

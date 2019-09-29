@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="renderer" content="webkit">
+    <style type="text/css">
+	 *{margin:0; padding:0;}
+	 a{text-decoration: none;}
+	 img{max-width: 100%; height: auto;}
+	 
+    .download{color: #4D4D4D; padding: 7.2% 6.8% 9.3%;}
+	.download .entry-hd{font-size: 2.4em; font-weight: bold; text-align: center;}
+	.download-btn{padding-top: 9%; text-align: center;}
+	.download-btn .android-btn{ width:auto; margin:0 auto;}
+	
+	.footer-bg{background: #2D2D2D; color: #E4E4E4; padding: 3.4% 2%; text-align: center;}
+	.footer-bg .entry-con{font-size: 1em;}
+	
+	#weixin-tip{display:none; position: fixed; left:0; top:0; background: rgba(0,0,0,0.8); filter:alpha(opacity=80); width: 100%; height:100%; z-index: 100;} 
+	#weixin-tip p{text-align: center; margin-top: 10%; padding:0 5%; position: relative;}
+	#weixin-tip .close{
+		color: #fff;
+		padding: 5px;
+		font: bold 20px/20px simsun;
+		text-shadow: 0 1px 0 #ddd;
+		position: absolute;
+		top: 0; left: 5%;
+	}
+    </style>
+	<title>齐信管家安卓版app下载</title>
+</head>
+<body class="success">
+	<div class="page-wrap">
+		<div class="download">
+			<h3 class="entry-hd">
+            </h3>
+			<div class="download-btn"><a href="http://www.xx.com/test.apk" class="android-btn" id="J_weixin"><img src="img/android-btn.png" alt="安卓版下载"></a></div>
+		</div>
+		<div class="footer-bg">
+			<p class="entry-con">注：微信用户请在右上角选择“在浏览器中打开”，再选择下载应用</p>
+		</div>
+	</div>
+	<div id="weixin-tip"><p><img src="img/live_weixin.png" alt="微信打开"/><span id="close" title="关闭" class="close">×</span></p></div>
+	<script type="text/javascript">
+	var is_weixin = (function() {
+	    var ua = navigator.userAgent.toLowerCase();
+	    if (ua.match(/MicroMessenger/i) == "micromessenger") {
+	        return true;
+	    } else {
+	        return false;
+	    }
+	})();
+	window.onload = function(){
+
+		let  json = [{
+	"tr_id": 4,
+	"parent_tr_id": 3,
+	"role_name": "78978978",
+	"gen_time": "2019-08-08T10:45:24.683",
+	"description": "789789789"
+}, {
+	"tr_id": 5,
+	"parent_tr_id": 4,
+	"role_name": "45654",
+	"gen_time": "2019-08-08T13:30:27.54",
+	"description": "213213"
+}, {
+	"tr_id": 6,
+	"parent_tr_id": 4,
+	"role_name": "12312",
+	"gen_time": "2019-08-08T13:30:40.33",
+	"description": "123123"
+}]
+
+
+
+		var winHeight = typeof window.innerHeight != 'undefined' ? window.innerHeight : document.documentElement.clientHeight;
+		var btn = document.getElementById('J_weixin');
+		var tip = document.getElementById('weixin-tip');
+		var close = document.getElementById('close');
+		if(is_weixin){
+			btn.onclick = function(e){
+				tip.style.height = winHeight + 'px';
+				tip.style.display = 'block';
+				return false;
+			}
+			close.onclick = function(){
+				tip.style.display = 'none';
+			}
+		}
+	}
+
+
+
+
+	</script>
+</body>
+</html>
