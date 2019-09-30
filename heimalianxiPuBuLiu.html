@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/jquery-3.2.1.min.js"></script>
     <title>Document</title>
     <style>
         * {
@@ -13,7 +14,7 @@
             box-sizing: border-box;
         }
 
-        .container {
+        .itemBox {
             width: 1000px;
             margin: 0 auto;
             position: relative;
@@ -21,7 +22,7 @@
             font-size: 0;
         }
 
-        .container div {
+        .itemBox .item {
             border: 1px solid #3c3c3c;
             position: absolute;
             padding: 2px;
@@ -30,11 +31,23 @@
 </head>
 
 <body>
-    <div class="container">
-        <div><img src="img/pbl_1.jpg" alt=""></div>
-        <div><img src="img/pbl_2.jpg" alt=""></div>
-        <div><img src="img/pbl_3.jpg" alt=""></div>
-        <div><img src="img/pbl_4.jpg" alt=""></div>
+    <div class="itemBox">
+        <div class="item"><img src="img/pbl_1.jpg" alt=""></div>
+        <div class="item"><img src="img/pbl_2.jpg" alt=""></div>
+        <div class="item"><img src="img/pbl_3.jpg" alt=""></div>
+        <div class="item"><img src="img/pbl_4.jpg" alt=""></div>
+        <div class="item"><img src="img/pbl_1.jpg" alt=""></div>
+        <div class="item"><img src="img/pbl_2.jpg" alt=""></div>
+        <div class="item"><img src="img/pbl_3.jpg" alt=""></div>
+        <div class="item"><img src="img/pbl_4.jpg" alt=""></div>
+        <div class="item"><img src="img/pbl_1.jpg" alt=""></div>
+        <div class="item"><img src="img/pbl_2.jpg" alt=""></div>
+        <div class="item"><img src="img/pbl_3.jpg" alt=""></div>
+        <div class="item"><img src="img/pbl_4.jpg" alt=""></div>
+        <div class="item"><img src="img/pbl_1.jpg" alt=""></div>
+        <div class="item"><img src="img/pbl_2.jpg" alt=""></div>
+        <div class="item"><img src="img/pbl_3.jpg" alt=""></div>
+        <div class="item"><img src="img/pbl_4.jpg" alt=""></div>
     </div>
     <script>
         //     思路分析
@@ -46,14 +59,100 @@
         //  6 滚动页面时 加载数据
 
         window.onload = function () {
-            let conBox = document.querySelector('.container'),
-                conBoxW = conBox.offsetWidth,
-                items = document.querySelectorAll('.container div'),
-                itemImgW = items[0].offsetWidth;
-    
-                
-                
+            // let conBox = document.querySelector('.container'),
+            //     conBoxW = conBox.offsetWidth,
+            //     items = document.querySelectorAll('.container div'),
+            //     itemImgW = items[0].offsetWidth,
+            //     column = parseInt(conBoxW / itemImgW),
+            //     distence = (conBoxW - itemImgW * column) / (column - 1);
+                var itemBox = document.getElementsByClassName('itemBox')[0];
+        var items = document.getElementsByClassName('item');
+        // 1 获取到.itemBox 宽度
+        var itemBoxW = itemBox.offsetWidth;
+        // 2 获取到.item 宽度
+        var itemW = items[0].offsetWidth;
+        // 3 求出列数
+        var column = parseInt(itemBoxW / itemW);
+        // 4 求出间距
+        var distence = (itemBoxW - itemW * column) / (column - 1);
 
+            //定义一个存储每列高度的容器
+            let arr = [];
+            waterFull();
+            console.log(arr);
+            let json = [{
+                "src": "img/pbl_1.jpg"
+            }, {
+                "src": "img/pbl_2.jpg"
+            }, {
+                "src": "img/pbl_3.jpg"
+            }, {
+                "src": "img/pbl_4.jpg"
+            }];
+
+            //let arrEle = [];
+            window.onscroll = src;
+
+            function src() {
+                console.log(this.pageYOffset);
+                console.log(this.innerHeight);
+                console.log(getMin(arr).minValue);
+
+                if (this.pageYOffset + this.innerHeight > getMin(arr).minValue) {
+                    console.log('我动了吗');
+
+                    // json.forEach(function (v) {
+                    //     let div = document.createElement('div');
+                    //     div.innerHTML = '<img src="' + v.src + '" />';
+                    //     conBox.appendChild(div);
+                    // });
+                    for (let i = 0; i < json.length; i++) {
+                        var div = document.createElement('div');
+                        div.className = 'item';
+                        var img = document.createElement('img');;
+                        img.src = json[i].src;
+                        div.appendChild(img);
+                        itemBox.appendChild(div);
+
+                    }
+                    waterFull();
+                }
+
+            }
+
+            function waterFull() {
+            for (var i = 0; i < items.length; i++) {
+                if (i < column) {
+                    items[i].style.left = (itemW + distence) * i + 'px';
+                    arr[i] = items[i].offsetHeight;
+                    // console.log(arr);
+                } else {
+                    var minV = getMin(arr).minValue;
+                    var minI = getMin(arr).minIndex;
+                    items[i].style.left = (itemW + distence) * minI + 'px';
+                    items[i].style.top = minV + distence + 'px';
+                    arr[minI] = minV + distence + items[i].offsetHeight;
+
+                }
+
+            }
+        }
+
+
+            function getMin(arr) {
+                let obj = {};
+                obj.minValue = arr[0];
+                obj.minIndex = 0;
+                for (let i = 1; i < arr.length; i++) {
+                    let a = arr[i];
+                    if (obj.minValue > a) {
+                        obj.minValue = a;
+                        obj.minIndex = i;
+                    }
+                }
+
+                return obj;
+            }
         }
     </script>
 </body>
