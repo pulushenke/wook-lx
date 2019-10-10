@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="container">
+
+    </div>
+    <script>
+        let container = document.querySelector('#container');
+        //游戏状态
+        let gameState = true;
+        //工具
+        let Tools = {
+            getImgSize: function (src) {
+                let img = new Image();
+                img.src = src;
+                return img.naturalWidth;
+            }
+        }
+        //面向对象
+        // 天空 容器大小 背景图 背景图大小 加载到父级元素
+        function Sky(options) {
+            options = options || {};
+            this.x = 0;
+            this.width = options.width || 800;
+            this.height = options.height || 600;
+            this.background = options.background || 'blue';
+
+        }
+        //创建Bird构造函数
+        function Bird(options) {
+            options = options || {};
+            //this.x = options.x || 100;
+            this.y = options.y || 100;
+            this.width = options.width || 20;
+            this.height = options.height || 20;
+            this.background = options.background || 'red';
+
+        }
+        let abs = 'absolute';
+        let elements = [];
+        //获取背景图的大小
+        //创建sky对象渲染到页面
+        Sky.prototype.render = function (parent) {
+            let div = document.createElement('div');
+            parent.appendChild(div);
+            elements.push(div);
+            div.style.position = 'relative';
+            div.style.width = this.width + 'px';
+            div.style.height = this.height + 'px';
+            div.style.background = this.background;
+          //  skyMove.bind(this)();
+
+        }
+        //创建sky移动方法
+        function skyMove() {
+            if (gameState) {
+                let timerSky = setInterval(function () {
+                    console.log(this);
+                    this.x -= 5;
+                    elements[0].style.backgroundPositionX = this.x + 'px';
+                    //获取图片地址
+                    let img = elements[0].style.backgroundImage;
+                    if (img.lenght !== 0) {
+                        let nStart = img.indexOf('"'),
+                            nEnd = img.lastIndexOf('"'),
+                            imgSrc = img.substr(nStart + 1, nEnd - nStart);
+                        //判断图片大小并根据大小重新加载
+                        if (sky.x < -Tools.getImgSize(imgSrc)) this.x = 0;
+                    }
+
+                }, 30)
+            }
+
+        }
+        //创建bird对象渲染到页面
+        Bird.prototype.render = function () {
+
+            let div = document.createElement('div');
+            elements[0].appendChild(div);
+            div.style.position = abs;
+            div.style.width = this.width + 'px';
+            div.style.height = this.height + 'px';
+            div.style.left = 20 + 'px';
+            div.style.top = this.y + 'px';
+            div.style.background = this.background;
+        }
+
+
+        Sky.prototype.bgcImgSize = function () {
+            let img = new Image();
+            img.src = backgroundImg;
+        }
+        let sky = new Sky({
+            width: 1000,
+            height: 700,
+            background: "url('./img/sky.jpg')"
+        });
+        let bird = new Bird({
+            width: 42,
+            height: 52,
+            background: ' url("img/brid.png") -125px -46px no-repeat'
+
+        })
+        sky.render(container);
+        bird.render()
+    </script>
+</body>
+
+</html>
