@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="container">
+
+    </div>
+    <script>
+        let container = document.querySelector('#container');
+        //游戏状态
+        let gameState = true;
+        let abs = 'absolute';
+        //存储创建的元素对象
+        let elements = [];
+        //工具
+        let Tools = {
+            getImgSize: function (src) {
+                let img = new Image();
+                img.src = src;
+                return img.naturalWidth;
+            }
+        }
+        //面向对象
+        // 天空 容器大小 背景图 背景图大小 加载到父级元素
+        function Sky(options) {
+            options = options || {};
+            this.x = 0;
+            this.width = options.width || 800;
+            this.height = options.height || 600;
+            this.background = options.background || 'blue';
+        }
+
+
+
+        //获取背景图的大小
+        //创建sky对象渲染到页面
+        Sky.prototype.render = function (parent) {
+            let div = document.createElement('div');
+            parent.appendChild(div);
+            elements.push(div);
+            div.style.position = 'relative';
+            div.style.width = this.width + 'px';
+            div.style.height = this.height + 'px';
+            div.style.background = this.background;
+        }
+
+        //创建sky移动方法
+        function skyMove() {
+            if (gameState) {
+                let timerSky = setInterval(function () {
+                    //  console.log(this);
+                    this.x -= 5;
+                    elements[0].style.backgroundPositionX = this.x + 'px';
+                    let img = elements[0].style.backgroundImage;
+                    if (img.lenght !== 0) {
+                        let nStart = img.indexOf('"'),
+                            nEnd = img.lastIndexOf('"'),
+                            imgSrc = img.substr(nStart + 1, nEnd - nStart - 1);
+                        //判断图片大小并根据大小重新加载
+                        if (this.x < -Tools.getImgSize(imgSrc) + elements[0].offsetWidth) this.x = 0;
+                    }
+
+                }.bind(this), 30);
+            }
+
+        }
+        window.Sky = Sky
+        //创建Bird构造函数
+        function Bird(options) {
+            options = options || {};
+            this.speedX = options.speedX || 5;
+            this.speedY = options.speedY || 0;
+            //this.x = options.x || 100;
+            this.y = options.y || 100;
+            this.width = options.width || 20;
+            this.height = options.height || 20;
+            this.background = options.background || 'red';
+        }
+
+
+        //创建bird对象渲染到页面
+        Bird.prototype.render = function () {
+            let div = document.createElement('div');
+            elements[0].appendChild(div);
+            elements.push(div);
+            div.style.position = abs;
+            div.style.width = this.width + 'px';
+            div.style.height = this.height + 'px';
+            div.style.left = 20 + 'px';
+            div.style.top = this.y + 'px';
+            div.style.background = this.background;
+
+        }
+        //创建小鸟移动方法
+        function birdMove() {
+            let timerBird = setInterval(function () {
+                this.speedY += 1;
+                this.y += this.speedY;
+                elements[1].style.top = this.y + 'px';
+            }.bind(this), 30);
+
+        }
+        window.Bird = Bird;
+
+   //创建管道的构造函数
+     function CreatePip(){
+         this.width = 52;
+         this.height
+         this.x = 0;
+         this.y = 0;
+     }
+
+        //创建game对象
+        function Game(obj) {
+            this.sky = new Sky(obj.sky);
+            this.bird = new Bird(obj.bird);
+
+        }
+        //创建游戏开始方法
+        Game.prototype.start = function (parent) {
+            this.sky.render(parent);
+            this.bird.render();
+            skyMove.call(this.sky);
+            birdMove.call(this.bird);
+            setClickBird.call(this.bird);
+        }
+
+        //  console.log(birdMove);
+
+
+        //创建bird鼠标点击移动方法
+        function setClickBird() {
+            document.addEventListener('click', function () {
+                this.speedY -= 10;
+            }.bind(this));
+        }
+
+        let game = new Game({
+            sky: {
+                width: 1000,
+                height: 700,
+                background: 'url("./img/sky.jpg")'
+            },
+            bird: {
+                width: 40,
+                height: 52,
+                background: 'url("img/brid.png") -125px -46px no-repeat',
+                y: 200
+            }
+
+        });
+        game.start(container);
+    </script>
+</body>
+
+</html>

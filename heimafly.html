@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #view {
+            background: url("./img/fly/bg.png");
+            width: 320px;
+            height: 568px;
+            margin: 0 auto;
+
+        }
+
+        /* #plane{
+            width: 34px;
+            height: 24px;
+        } */
+    </style>
+</head>
+
+<body>
+    <div id="view"></div>
+    <script>
+        let vie = document.querySelector('#view');
+        //创建战机
+        let plaEle = document.createElement('div');
+        plaEle.style.position = 'absolute';
+        plaEle.id = 'plane';
+        plaEle.innerHTML = '<img src="./img/fly/me.png" />';
+
+        insertAfter(plaEle, vie);
+        console.dir(plaEle.children);
+ 
+        //鼠标移动战机
+        document.onmousemove = function (e) {
+       
+            plaEle.flag = false;
+            let movX = e.clientX - plaEle.clientWidth / 2,
+                movY = e.clientY - plaEle.clientHeight / 2;
+            //判断鼠标是否在指定区域内
+            let regionX = movX > vie.offsetLeft && movX < vie.offsetLeft + vie.offsetWidth - plaEle.offsetWidth,
+                regionY = movY > vie.offsetTop && movY < vie.offsetTop + vie.offsetHeight - plaEle.offsetHeight;
+
+            if (regionX && regionY) {
+
+                plaEle.style.left = movX + 'px';
+                plaEle.style.top = movY + 'px';
+                plaEle.flag = true;
+
+
+            }
+
+
+        }
+      //创建子弹的参数
+        var obj = {
+            name: 'bullet',
+            num: 1,
+            arr: [],
+            width: 6,
+            height: 14,
+            path: './img/fly/b.png'
+        }
+        createBullet(obj);
+            //创建子弹对象
+        function createBullet(obj) {
+            setInterval(function () {
+                if (plaEle.flag) {
+                    let ele = document.createElement('div');
+                    ele.id = obj.name + obj.num;
+                    let len = obj.arr.length;
+                    if (len <= 10) {
+                        obj.arr[len] = ele.id + '|';
+                    
+                        obj.num++;
+                        ele.style.width = obj.width + 'px';
+                        ele.style.height = obj.height + 'px';
+                        ele.style.position = 'absolute';
+                        ele.style.background = 'url(' + obj.path + ')';
+                        ele.style.top = parseInt(plaEle.style.top) + obj.height / 2 + 'px';
+                        obj.arr[len] += ele.style.top + '|';
+
+                        ele.style.left = parseInt(plaEle.style.left) + plaEle.offsetWidth / 2 - obj.width / 2 +
+                            'px';
+                  
+                        obj.arr[len] += ele.style.left;
+         
+
+                    }
+                     insertAfter(ele, vie);
+             
+                }
+
+            }, 1000)
+
+        }
+        console.log(obj.arr);
+            //子弹的移动轨迹
+        function moveBullet() {
+            if (plaEle.flag) {
+         
+                for (let i = 0; i < obj.arr.length; i++) {
+                   // console.log(obj.arr);
+                    let newArr = obj.arr[i].split('|');
+                    // console.log(newArr);
+                    let eleBul = document.querySelector('#' + newArr[0] + '');
+                   // console.log(eleBul);
+                    newArr[1] = parseInt(newArr[1]) - 1;
+                    eleBul.style.top = newArr[1] + 'px';
+                    //  console.log(newArr[1]);
+                    obj.arr[i] = newArr[0] + '|' + newArr[1] + '|' + newArr[2];
+                    if (newArr[1] < 0) {
+                        obj.arr.splice(i, 1);
+                        eleBul.parentNode.removeChild(eleBul);
+                    }
+
+                }
+            }
+        }
+  
+        //创建敌机的参数
+        var objF = {
+            name: 'foe',
+            num: 1,
+            arr: [],
+            width: 34,
+            height: 24,
+            path: './img/fly/foe.png'
+        }
+        createFoe(objF);
+            //创建敌对象
+        function createFoe(o) {
+            setInterval(function () {
+                if (plaEle.flag) {
+                    let ele1 = document.createElement('div');
+                    ele1.id = o.name + o.num;
+                    let len = o.arr.length;
+                    if (len <= 50) {
+                        o.arr[len] = ele1.id + '|';
+                        o.num++;
+                        ele1.style.width = o.width + 'px';
+                        ele1.style.height = o.height + 'px';
+                        ele1.style.position = 'absolute';
+                        ele1.style.background = 'url(' + o.path + ')';
+                        ele1.style.top = 0;
+                        o.arr[len] += ele1.style.top + '|';
+                        let ran = vie.offsetWidth * Math.random();
+                        ele1.style.left = vie.offsetLeft + ran + 'px';
+                        o.arr[len] += ele1.style.left;
+                    }
+                   insertAfter(ele1, vie);
+                
+                   // document.body.appendChild(ele1);
+                     console.log(ele1);
+                }
+
+            }, 1000)
+
+        }
+
+            //子弹的敌机轨迹
+        function moveFoe() {
+            if (plaEle.flag) {
+                for (let i = 0; i < objF.arr.length; i++) {
+                    let newArr = objF.arr[i].split('|');
+                    let eleBul = document.querySelector('#' + newArr[0] + '');
+                 
+                    newArr[1] = parseInt(newArr[1]) + 1;
+                    console.log(newArr[1]);
+                    objF.arr[i] = newArr[0] + '|' + newArr[1] + '|' + newArr[2];
+                    // if (newArr[1] > vie.offsetLeft - vie.offsetHeight) {
+                    //     objF.arr.splice(i, 1);
+                    //     eleBul.parentNode.removeChild(eleBul);
+                    // }
+
+                }
+            }
+        }
+        setInterval(function () {
+            moveBullet();
+            moveFoe();
+        }, 10)
+        //获取浏览器视口宽高
+        function getViewport() {
+            var wX = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var wY = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+            return {
+                winX: wX,
+                winY: wY
+            }
+        }
+
+        function insertAfter(newElement, targetElement) { // newElement是要追加的元素 targetElement 是指定元素的位置
+            var parent = targetElement.parentNode; // 找到指定元素的父节点
+            if (parent.lastChild == targetElement) { // 判断指定元素的是否是节点中的最后一个位置 如果是的话就直接使用appendChild方法
+                parent.appendChild(newElement, targetElement);
+            } else {
+                parent.insertBefore(newElement, targetElement.nextSibling);
+            };
+        };
+    </script>
+</body>
+
+</html>

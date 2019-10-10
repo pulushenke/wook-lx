@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // js数组对象相同项合并处理
+        // 平时工作中会经常遇到数据处理，其中数组合并处理也会经常遇到，下面就是数组相同项合并的一种方式：
+        // - 1.首先由原始的数组arr数据，
+        // - 2.然后创建一个map空对象和一个dest空数组，通过判断map中是否含有某项来判断数组dest是否添加数据，
+        // - 3.然后再判断相同项和已有的dest数组内容比较合并；
+        var arr = [
+
+            {
+                "id": "1",
+                "name": "张三",
+                "value": "1245"
+            },
+            {
+                "id": "1",
+                "name": "张三",
+                "value": "1360"
+            },
+            {
+                "id": "2",
+                "name": "李四",
+                "value": "1120"
+            },
+            {
+                "id": "2",
+                "name": "李四",
+                "value": "1362"
+            },
+            {
+                "id": "2",
+                "name": "李四",
+                "value": "1008"
+            },
+            {
+                "id": "3",
+                "name": "王五",
+                "value": "1360"
+            },
+            {
+                "id": "4",
+                "name": "赵六",
+                "value": "1986"
+            },
+            {
+                "id": "4",
+                "name": "赵六",
+                "value": "1240"
+            }
+        ];
+        var map = {},
+            dest = [];
+        for (var i = 0; i < arr.length; i++) {
+            var ai = arr[i];
+            if (!map[ai.id]) {
+                dest.push({
+                    id: ai.id,
+                    name: ai.name,
+                    value: ai.value
+                });
+                map[ai.id] = ai;
+            } else {
+                for (var j = 0; j < dest.length; j++) {
+                    var dj = dest[j];
+                    if (dj.id == ai.id) {
+                        dj.value = (parseFloat(dj.value) + parseFloat(ai.value)).toString();
+                        break;
+                    }
+                }
+            }
+        };
+        console.log(JSON.stringify(dest));
+
+        结果如下
+
+            [{
+                "id": "1",
+                "name": "张三",
+                "value": "2605"
+            }, {
+                "id": "2",
+                "name": "李四",
+                "value": "3490"
+            }, {
+                "id": "3",
+                "name": "王五",
+                "value": "1360"
+            }, {
+                "id": "4",
+                "name": "赵六",
+                "value": "3226"
+            }]
+    </script>
+</body>
+
+</html>

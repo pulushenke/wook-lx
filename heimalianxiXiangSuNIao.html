@@ -19,6 +19,7 @@
             background-size: auto;
             position: relative;
             margin: 50px auto 0;
+            overflow: hidden;
         }
 
         #bird {
@@ -56,9 +57,6 @@
             x: birdEle.offsetLeft,
             y: birdEle.offsetTop
         }
-        window.onload = function () {
-
-        }
 
         //获取game 背景图片的原始宽度
         function getImg(src) {
@@ -67,30 +65,42 @@
             return img.naturalWidth;
 
         }
-        console.log(bird.y);
+        let arr = [];
+
+        createPip(400);
+        createPip(600);
+        createPip(800);
+        createPip(1000);
+
+        console.log(arr);
+
         let gameState = true;
-        let timerId = setInterval(() => {
+        let timerGame = setInterval(() => {
             if (gameState) {
                 sky.x -= 5;
                 game.style.backgroundPositionX = sky.x + 'px';
                 if (sky.x < -getImg('./img/sky.jpg') + game.offsetWidth) sky.x = 0;
-                bird.speedY += 1;
+                bird.speedY += 0.5;
                 bird.y += bird.speedY;
-
+                birdEle.style.top = bird.y + 'px';
                 if (bird.y < 0) {
                     gameState = false;
                     bird.y = 0;
-                    clearInterval(timerId);
-                    timerId = null;
+                    birdEle.style.top = bird.y + 'px';
+                    // gameOver();
+
+
                 }
                 if (bird.y > game.offsetHeight - birdEle.offsetHeight) {
                     gameState = false;
                     bird.y = game.offsetHeight - birdEle.offsetHeight;
-                    clearInterval(timerId);
-                    timerId = null;
+                    birdEle.style.top = bird.y + 'px';
+                    //   gameOver();
+
 
                 }
-                birdEle.style.top = bird.y + 'px';
+                //birdEle.style.top = bird.y + 'px';
+
 
             }
 
@@ -98,35 +108,93 @@
 
         }, 30);
 
-        // clearInterval(timerId);
+        //游戏结束
+        // function gameOver() {
+        //     let cWhether = confirm('是否继续游戏?');
+        //     if (cWhether) {
+        //         gameState = cWhether;
+        //         bird.speedY = 0;
+        //         bird.y = 100;
+        //         for (let i = game.children.length - 1; i > 0; i--) {
+        //             game.removeChild(game.children[i]);
+        //         }
+
+        //         createPip(400);
+        //         createPip(600);
+        //         createPip(800);
+        //         createPip(1000);
+
+        //     } else {
+        //         clearInterval(timerGame);
+        //     }
+        // }
+
+
+
         //添加点击事件让小鸟移动
         document.onclick = function () {
-            bird.speedY -= 10;
+            bird.speedY -= 5;
         }
 
 
-        //  setAnimate(birdEle,600)
-        function setAnimate(ele, target) {
-            if (ele.timerId) {
-                clearInterval(ele.timerId);
-                ele.timerId = null
-            }
-            ele.timerId = setInterval(function () {
-                let step = 10;
-                let current = ele.offsetLeft;
-                if (current > target) {
-                    step = -Math.abs(step);
+
+
+        //创建管道
+        function createPip(position) {
+            let pip = {}
+            //管道间距
+            let pipSpa = 200;
+            pip.x = position;
+            pip.uHeight = pipSpa + parseInt(Math.random() * 100);
+
+            pip.dHeight = game.offsetHeight - pip.uHeight - pipSpa;
+            pip.downTop = pip.uHeight + pipSpa;;
+            //创建上管道
+            let upPip = document.createElement('div');
+            upPip.style.width = 52 + 'px';
+            upPip.style.height = pip.uHeight + 'px';
+            upPip.style.position = 'absolute';
+            upPip.style.background = 'url("./img/pipe2.png") no-repeat center bottom';
+            upPip.style.top = 0;
+            upPip.style.left = pip.x + 'px';
+
+            game.appendChild(upPip);
+            //创建下管道
+
+            let downPip = document.createElement('div');
+            downPip.style.width = 52 + 'px';
+            downPip.style.height = pip.dHeight + 'px';
+            downPip.style.position = 'absolute';
+            downPip.style.background = 'url("./img/pipe1.png") no-repeat center top';
+            downPip.style.top = pip.downTop + 'px';
+            downPip.style.left = pip.x + 'px';
+
+            game.appendChild(downPip);
+
+            // 管道运动
+            let timerPip = setInterval(() => {
+                if (gameState) {
+                    pip.x -= 2;
+                    upPip.style.left = pip.x + 'px';
+                    downPip.style.left = pip.x + 'px';
+                    if (pip.x < -(upPip.offsetWidth)) pip.x = game.offsetWidth;
+                    //定义bird碰到管道的表达式得到逻辑值并根据值改变游戏进度
+
+                    let upCollision = bird.x + birdEle.offsetWidth > pip.x && bird.x < pip.x + upPip
+                        .offsetWidth && bird.y < pip.uHeight,
+                        downCollision = bird.x + birdEle.offsetWidth > pip.x && bird.x < pip.x + upPip
+                        .offsetWidth && bird.y + birdEle.offsetHeight > pip.uHeight + pipSpa;
+                    if (upCollision || downCollision) {
+
+                        gameState = false;
+                    }
+
                 }
-                if (Math.abs(current - target) < Math.abs(step)) {
-                    clearInterval(ele.timerId);
-                    ele.style.left = target + 'px';
-                    return
-                }
-                current += step;
-                ele.style.left = current + 'px';
-            }, 10);
+
+            }, 30);
+
         }
-        console.log(game);
+
     </script>
 </body>
 
