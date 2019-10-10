@@ -1,12 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #game {
+            width: 800px;
+            height: 600px;
+            background: url('img/sky.jpg');
+            background-size: auto;
+            position: relative;
+            margin: 50px auto 0;
+        }
+
+        #bird {
+            width: 40px;
+            height: 52px;
+            background: url('img/brid.png') -125px -46px no-repeat;
+            position: absolute;
+            top: 100px;
+            left: 20px;
+        }
+    </style>
 </head>
+
 <body>
-    
+    <div class="" id="game">
+        <div id="bird">
+
+        </div>
+    </div>
+    <script>
+        //让小鸟飞起来
+        //移动的背景
+        //top
+        //定时器
+        //动画过程 leader = ledder + step
+        //获取相关的元素
+        let game = document.querySelector('#game'),
+            birdEle = document.querySelector('#bird');
+        let sky = {
+            x: 0
+        }
+        let bird = {
+            speedX: 5,
+            speedY: 0,
+            x: birdEle.offsetLeft,
+            y: birdEle.offsetTop
+        }
+        window.onload = function () {
+
+        }
+
+        //获取game 背景图片的原始宽度
+        function getImg(src) {
+            let img = new Image();
+            img.src = src;
+            return img.naturalWidth;
+
+        }
+        console.log(bird.y);
+        let gameState = true;
+        let timerId = setInterval(() => {
+            if (gameState) {
+                sky.x -= 5;
+                game.style.backgroundPositionX = sky.x + 'px';
+                if (sky.x < -getImg('./img/sky.jpg') + game.offsetWidth) sky.x = 0;
+                bird.speedY += 1;
+                bird.y += bird.speedY;
+
+                if (bird.y < 0) {
+                    gameState = false;
+                    bird.y = 0;
+                    clearInterval(timerId);
+                    timerId = null;
+                }
+                if (bird.y > game.offsetHeight - birdEle.offsetHeight) {
+                    gameState = false;
+                    bird.y = game.offsetHeight - birdEle.offsetHeight;
+                    clearInterval(timerId);
+                    timerId = null;
+
+                }
+                birdEle.style.top = bird.y + 'px';
+
+            }
+
+
+
+        }, 30);
+
+        // clearInterval(timerId);
+        //添加点击事件让小鸟移动
+        document.onclick = function () {
+            bird.speedY -= 10;
+        }
+
+
+        //  setAnimate(birdEle,600)
+        function setAnimate(ele, target) {
+            if (ele.timerId) {
+                clearInterval(ele.timerId);
+                ele.timerId = null
+            }
+            ele.timerId = setInterval(function () {
+                let step = 10;
+                let current = ele.offsetLeft;
+                if (current > target) {
+                    step = -Math.abs(step);
+                }
+                if (Math.abs(current - target) < Math.abs(step)) {
+                    clearInterval(ele.timerId);
+                    ele.style.left = target + 'px';
+                    return
+                }
+                current += step;
+                ele.style.left = current + 'px';
+            }, 10);
+        }
+        console.log(game);
+    </script>
 </body>
+
 </html>
