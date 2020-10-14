@@ -19,9 +19,12 @@
         let container = document.querySelector('#container');
         //游戏状态
         let gameState = true;
+<<<<<<< HEAD
         let abs = 'absolute';
         //存储创建的元素对象
         let elements = [];
+=======
+>>>>>>> 4def25133c37ff3aa14dd5b722e21c4818c0ce2f
         //工具
         let Tools = {
             getImgSize: function (src) {
@@ -38,10 +41,27 @@
             this.width = options.width || 800;
             this.height = options.height || 600;
             this.background = options.background || 'blue';
+<<<<<<< HEAD
         }
 
 
 
+=======
+
+        }
+        //创建Bird构造函数
+        function Bird(options) {
+            options = options || {};
+            //this.x = options.x || 100;
+            this.y = options.y || 100;
+            this.width = options.width || 20;
+            this.height = options.height || 20;
+            this.background = options.background || 'red';
+
+        }
+        let abs = 'absolute';
+        let elements = [];
+>>>>>>> 4def25133c37ff3aa14dd5b722e21c4818c0ce2f
         //获取背景图的大小
         //创建sky对象渲染到页面
         Sky.prototype.render = function (parent) {
@@ -52,19 +72,33 @@
             div.style.width = this.width + 'px';
             div.style.height = this.height + 'px';
             div.style.background = this.background;
+<<<<<<< HEAD
         }
 
+=======
+          //  skyMove.bind(this)();
+
+        }
+>>>>>>> 4def25133c37ff3aa14dd5b722e21c4818c0ce2f
         //创建sky移动方法
         function skyMove() {
             if (gameState) {
                 let timerSky = setInterval(function () {
+<<<<<<< HEAD
                     //  console.log(this);
                     this.x -= 5;
                     elements[0].style.backgroundPositionX = this.x + 'px';
+=======
+                    console.log(this);
+                    this.x -= 5;
+                    elements[0].style.backgroundPositionX = this.x + 'px';
+                    //获取图片地址
+>>>>>>> 4def25133c37ff3aa14dd5b722e21c4818c0ce2f
                     let img = elements[0].style.backgroundImage;
                     if (img.lenght !== 0) {
                         let nStart = img.indexOf('"'),
                             nEnd = img.lastIndexOf('"'),
+<<<<<<< HEAD
                             imgSrc = img.substr(nStart + 1, nEnd - nStart - 1);
                         //判断图片大小并根据大小重新加载
                         if (this.x < -Tools.getImgSize(imgSrc) + elements[0].offsetWidth) this.x = 0;
@@ -93,12 +127,29 @@
             let div = document.createElement('div');
             elements[0].appendChild(div);
             elements.push(div);
+=======
+                            imgSrc = img.substr(nStart + 1, nEnd - nStart);
+                        //判断图片大小并根据大小重新加载
+                        if (sky.x < -Tools.getImgSize(imgSrc)) this.x = 0;
+                    }
+
+                }, 30)
+            }
+
+        }
+        //创建bird对象渲染到页面
+        Bird.prototype.render = function () {
+
+            let div = document.createElement('div');
+            elements[0].appendChild(div);
+>>>>>>> 4def25133c37ff3aa14dd5b722e21c4818c0ce2f
             div.style.position = abs;
             div.style.width = this.width + 'px';
             div.style.height = this.height + 'px';
             div.style.left = 20 + 'px';
             div.style.top = this.y + 'px';
             div.style.background = this.background;
+<<<<<<< HEAD
 
         }
         //创建小鸟移动方法
@@ -160,6 +211,28 @@
 
         });
         game.start(container);
+=======
+        }
+
+
+        Sky.prototype.bgcImgSize = function () {
+            let img = new Image();
+            img.src = backgroundImg;
+        }
+        let sky = new Sky({
+            width: 1000,
+            height: 700,
+            background: "url('./img/sky.jpg')"
+        });
+        let bird = new Bird({
+            width: 42,
+            height: 52,
+            background: ' url("img/brid.png") -125px -46px no-repeat'
+
+        })
+        sky.render(container);
+        bird.render()
+>>>>>>> 4def25133c37ff3aa14dd5b722e21c4818c0ce2f
     </script>
 </body>
 
