@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点击复制操作</title>
+</head>
+
+<body>
+    <script>
+        //编号复制
+        var copy = function (e) {
+            $(this).select();
+            try {
+                window.document.execCommand('copy');
+            } catch (err) {
+                alert('请按Ctrl / Cmd + C复制');
+            }
+            e.stopPropagation();
+            // return false;
+        }
+
+        let $inputCode = $(
+            '<input type="text" style="float:right;border:0;background:initial;line-height:40px;cursor:copy;" title="' +
+            _data[i]['value'] + '" value="' + _data[i]['value'] + '" readonly >');
+        $inputCode.click(copy);
+    </script>
+</body>
+
+</html>
