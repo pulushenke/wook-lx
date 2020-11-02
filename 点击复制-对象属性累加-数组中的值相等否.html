@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点击复制操作</title>
+</head>
+
+<body>
+    <script>
+        //编号复制
+        var copy = function (e) {
+            $(this).select();
+            try {
+                window.document.execCommand('copy');
+            } catch (err) {
+                alert('请按Ctrl / Cmd + C复制');
+            }
+            e.stopPropagation();
+            // return false;
+        }
+
+        let $inputCode = $(
+            '<input type="text" style="float:right;border:0;background:initial;line-height:40px;cursor:copy;" title="' +
+            _data[i]['value'] + '" value="' + _data[i]['value'] + '" readonly >');
+        $inputCode.click(copy);
+
+        //判断数组中的值是否都相等
+        function isAllEqual(array) {
+            if (array.length > 0) {
+                return !array.some(function (value, index) {
+                    return value !== array[0];
+                });
+            } else {
+                return true;
+            }
+        }
+
+        var arrsAll = ['1', '1', '1'];
+        console.log('isAllEqual', isAllEqual(arrsAll)); //true
+
+
+        //无非就是 计算数组元素 相加后的总和 ，看网上给的Demo 全是  
+        // [1,2,3,4,6].reduce 这种基本用法，
+        // 在实际开发中 数组中一般都是放对象   
+        // 本次我将使用 reduce 实现 **数组对象中 具体属性 Price 累加**
+        // ` [{ name: 'apple',  price: 10 }, {  name: 'banana',   price: 9  } ]; `
+
+        // 作者：年轻的资本
+        // 链接：https://juejin.im/post/6844903791347630093
+        // 来源：掘金
+        // 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+        let array = [{
+            name: 'apple',
+            price: 10
+        }, {
+            name: 'banana',
+            price: 9
+        }];
+
+        let sumprice = 0;
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
+            sumprice += element.price;
+        }
+        console.log('for example sumprice', sumprice);
+
+        /* 
+            reduce 语法实现
+            total    必需。初始值, 或者计算结束后的返回值。
+            currentValue    必需。当前元素
+            currentIndex    可选。当前元素的索引
+            arr    可选。当前元素所属的数组对象。
+        */
+        sumprice = array.reduce(function (total, currentValue, currentIndex, arr) {
+            return total + currentValue.price;
+        }, 0);
+        console.log('for reduce sumprice', sumprice);
+
+
+    </script>
+</body>
+
+</html>
